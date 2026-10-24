@@ -3,6 +3,13 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Exclure b13 files
+basedOn/
+*.lnk
+*.cmd
+*.bat
+*.nupkg
+
 # User-specific files
 *.rsuser
 *.suo
@@ -399,3 +406,17 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# =========================
+# Windows temporary file
+# =========================
+
+# Windows image file caches
+thumbs.db
+
+# Folder config file
+desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+# =========================

@@ -1,2 +1,36 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# 2. Force CRLF for specific text-based extensions
+*.md text eol=crlf
+*.txt text eol=crlf
+*.cs text eol=crlf
+*.cs.bak text eol=crlf
+*.razor text eol=crlf
+*.js text eol=crlf
+*.css text eol=crlf
+*.htm text eol=crlf
+*.html text eol=crlf
+*.json text eol=crlf
+*.xml text eol=crlf
+*.user text eol=crlf
+*.h text eol=crlf
+*.def text eol=crlf
+*.cpp text eol=crlf
+*.sln text eol=crlf
+*.config text eol=crlf
+*.csproj text eol=crlf
+*.vcxproj text eol=crlf
+*.editorconfig eol=crlf
+
+# 3. Explicitly mark binary files (Git will not touch these)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.zip binary
+*.exe binary
+*.dll binary
+*.docx binary
+*.xlsx binary
+*.xlsm binary
