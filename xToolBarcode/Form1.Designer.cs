@@ -29,12 +29,13 @@ partial class Form1 {
         // 
         // cmdProcessList
         // 
+        this.cmdProcessList.BackColor = Color.Green;
         this.cmdProcessList.Location = new Point(12, 12);
         this.cmdProcessList.Name = "cmdProcessList";
         this.cmdProcessList.Size = new Size(119, 53);
         this.cmdProcessList.TabIndex = 0;
-        this.cmdProcessList.Text = "button1";
-        this.cmdProcessList.UseVisualStyleBackColor = true;
+        this.cmdProcessList.Text = "Import";
+        this.cmdProcessList.UseVisualStyleBackColor = false;
         // 
         // Form1
         // 
@@ -42,6 +43,7 @@ partial class Form1 {
         this.ClientSize = new Size(800, 450);
         this.Controls.Add(this.cmdProcessList);
         this.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        this.ForeColor = Color.White;
         this.Name = "Form1";
         this.StartPosition = FormStartPosition.CenterScreen;
         this.Text = "Form1";
