@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\basedOn\import\unprinted-cards.json">
+    <Content Include="..\basedOn\import\unprinted-cards.json" Link="import\unprinted-cards.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
