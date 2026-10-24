@@ -7,15 +7,18 @@ using ZXing.Rendering;
 namespace xToolBarcode;
 
 internal static class Code128Png {
-    public const int Width = 180;
-    public const int Height = 50;
+    private const int BarcodeWidth = 180;
+    private const int BarcodeHeight = 50;
+    private const int ImageWidth = 230;
+    private const int ImageHeight = 100;
+    private const int TextGap = 2;
 
     public static void Save(string value, string path) {
         var writer = new BarcodeWriterPixelData {
             Format = BarcodeFormat.CODE_128,
             Options = new EncodingOptions {
-                Width = Width,
-                Height = Height,
+                Width = BarcodeWidth,
+                Height = BarcodeHeight,
                 Margin = 0,
                 PureBarcode = true
             },
@@ -26,9 +29,9 @@ internal static class Code128Png {
         };
 
         var pixelData = writer.Write(value);
-        if (pixelData.Width != Width || pixelData.Height != Height) {
+        if (pixelData.Width != BarcodeWidth || pixelData.Height != BarcodeHeight) {
             throw new InvalidOperationException(
-                $"Barcode for {value} was {pixelData.Width}x{pixelData.Height}, expected {Width}x{Height}.");
+                $"Barcode for {value} was {pixelData.Width}x{pixelData.Height}, expected {BarcodeWidth}x{BarcodeHeight}.");
         }
 
         var pixels = pixelData.Pixels;
@@ -56,15 +59,33 @@ internal static class Code128Png {
             }
         }
 
-        using var bitmap = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
-        var data = bitmap.LockBits(new Rectangle(0, 0, Width, Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+        using var barcode = new Bitmap(BarcodeWidth, BarcodeHeight, PixelFormat.Format32bppArgb);
+        var data = barcode.LockBits(new Rectangle(0, 0, BarcodeWidth, BarcodeHeight), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
         try {
-            var rowBytes = Width * 4;
-            for (var y = 0; y < Height; y++) {
+            var rowBytes = BarcodeWidth * 4;
+            for (var y = 0; y < BarcodeHeight; y++) {
                 Marshal.Copy(pixels, y * rowBytes, IntPtr.Add(data.Scan0, y * data.Stride), rowBytes);
             }
         } finally {
-            bitmap.UnlockBits(data);
+            barcode.UnlockBits(data);
+        }
+
+        using var bitmap = new Bitmap(ImageWidth, ImageHeight, PixelFormat.Format32bppArgb);
+        using (var graphics = Graphics.FromImage(bitmap)) {
+            graphics.Clear(Color.Transparent);
+            graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            var barcodeX = (ImageWidth - BarcodeWidth) / 2;
+            var barcodeY = (ImageHeight - BarcodeHeight) / 2;
+            graphics.DrawImageUnscaled(barcode, barcodeX, barcodeY);
+
+            var textTop = barcodeY + BarcodeHeight + TextGap;
+            using var font = new Font("Segoe UI", 14f, FontStyle.Regular, GraphicsUnit.Pixel);
+            var textRect = new RectangleF(0, textTop, ImageWidth, ImageHeight - textTop);
+            using var format = new StringFormat {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Near
+            };
+            graphics.DrawString(value, font, Brushes.Black, textRect, format);
         }
 
         bitmap.Save(path, ImageFormat.Png);
