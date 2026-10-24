@@ -16,6 +16,7 @@ basedOn/
 *.user
 *.userosscache
 *.sln.docstates
+unprinted-cards.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
